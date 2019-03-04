@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userDao"  class="springaop.demo.ioc.dao.UserDaoImpl" />
+
+    <bean id="userDao1" autowire-candidate="false" class="springaop.demo.ioc.dao.UserDaoImpl" />
+    <!-- autowire-candidate="false" 过滤该类型 -->
+    <bean id="userDao2" autowire-candidate="false" class="springaop.demo.ioc.dao.UserDaoImpl" />
+
+    <!-- byType 根据类型自动装配userDao-->
+    <bean id="userService" autowire="byType" class="springaop.demo.ioc.service.UserServiceImpl" />
+
+
+    <!--基于占位符方式 配置单个properties -->
+    <!--<context:property-placeholder location="conf/jdbc.properties"/>-->
+    <!--基于占位符方式 配置多个properties -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+        <property name="location" value="jdbc.properties"/>
+    </bean>
+
+    <!--基于SpEL表达式 配置多个properties id值为configProperties 提供java代码中使用 -->
+    <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath: jdbc.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--基于SpEL表达式 配置单个properties -->
+    <!--<util:properties id="configProperties" location="classpath:conf/jdbc.properties"/>-->
+
+    <!--注解驱动 -->
+
+
+    <bean id="userService1" class="springaop.demo.ioc.service.UserServiceImpl1"/>
+</beans>

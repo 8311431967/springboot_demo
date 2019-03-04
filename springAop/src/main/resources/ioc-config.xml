@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 声明accountDao对象,交给spring创建 -->
+    <bean name="accountDao" class="springaop.demo.ioc.dao.AccountDaoImpl"/>
+    <!-- 声明accountService对象,交给spring创建 -->
+    <bean name="accountService" class="springaop.demo.ioc.service.AccountServiceImpl">
+        <!-- 注入accountDao对象,需要set方法-->
+        <property name="accountDao" ref="accountDao"/>
+    </bean>
+
+    <bean name="accountService1" class="springaop.demo.ioc.service.AccountServiceImpl">
+        <!-- 注入accountDao对象,需要set方法-->
+        <constructor-arg  ref="accountDao"/>
+    </bean>
+    <!-- 测试构造函数注入-->
+    <bean id="user" class="springaop.demo.ioc.model.User" >
+        <constructor-arg  type="java.lang.String" value="Jack"/>
+        <constructor-arg  type="int" value="26"/>
+    </bean>
+
+    <!-- setter通过property 注入属性值，普通类型使用value -->
+    <bean id="account" scope="prototype" class="springaop.demo.ioc.model.Account" >
+        <property name="name" value="I am SpringIOC1" />
+        <property name="pwd" value="123" />
+        <!-- 注入map -->
+        <property name="books">
+            <map>
+                <entry key="10" value="CoreJava">
+                </entry>
+                <entry key="11" value="JavaWeb">
+                </entry>
+                <entry key="12" value="SSH2">
+                </entry>
+            </map>
+        </property>
+        <!-- 注入set -->
+        <property name="friends">
+            <set>
+                <value>张龙</value>
+                <value>老王</value>
+                <value>王五</value>
+            </set>
+        </property>
+        <!-- 注入list -->
+        <property name="citys">
+            <list>
+                <value>北京</value>
+                <value>上海</value>
+                <value>深圳</value>
+                <value>广州</value>
+            </list>
+        </property>
+    </bean>
+</beans>
